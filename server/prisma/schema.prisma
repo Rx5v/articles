@@ -12,11 +12,21 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+// prisma/schema.prisma
+model User {
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  password String
+  role     String  // 'admin', 'creator', 'user'
+  articles Article[]
+}
+
 model Article {
-  id      Int     @id @default(autoincrement())
+  id      Int    @id @default(autoincrement())
   title   String
-  content String  @db.LongText
-  image   String? // URL or path to the image
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  content String
+  image   String?
+  userId  Int
+  user    User   @relation(fields: [userId], references: [id])
 }

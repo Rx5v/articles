@@ -1,17 +1,15 @@
 // src/index.js
-import express, { json } from 'express';
-import cors from 'cors';
+import express from 'express';
+import authRoutes from './routes/authRoutes.js';
 import articleRoutes from './routes/articleRoutes.js';
 
 const app = express();
 const PORT = 3000;
 
-// Middleware
-app.use(cors());
-app.use(json());
+app.use(express.json());
+app.use('/auth', authRoutes);
 app.use('/articles', articleRoutes);
 
-// Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });

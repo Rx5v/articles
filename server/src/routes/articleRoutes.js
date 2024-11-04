@@ -1,12 +1,17 @@
 // src/routes/articleRoutes.js
-import { Router } from 'express';
-const router = Router();
-import upload from '../middleware/upload.js';
+import express from 'express';
+import { verifyToken } from '../utils/auth.js';
+import { checkRole } from '../middleware/checkRole.js';
 import { createArticle, getArticles, updateArticle, deleteArticle } from '../controllers/articleController.js';
 
-router.post('/', upload.single('file'), createArticle);
+const router = express.Router();
+
+// Public route for all users to view articles
 router.get('/', getArticles);
-router.put('/:id', upload.single('file'), updateArticle);
-router.delete('/:id', deleteArticle);
+
+// Routes protected by token and role-based access
+router.post('/', verifyToken, checkRole(['admin', 'creator']), createArticle);
+router.put('/:id', verifyToken, checkRole(['admin', 'creator']), updateArticle);
+router.delete('/:id', verifyToken, checkRole(['admin']), deleteArticle);
 
 export default router;
