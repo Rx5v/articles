@@ -30,7 +30,7 @@ const Home = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-              const response = await axios.get('http://localhost:3000/articles');
+              const response = await axios.get('http://localhost:3001/articles');
               console.log(response.data.data);
               
               setArticles(response.data.data);  
