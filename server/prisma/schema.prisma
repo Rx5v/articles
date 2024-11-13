@@ -17,6 +17,7 @@ datasource db {
 model User {
   id       Int     @id @default(autoincrement())
   email    String  @unique
+  name     String
   password String
   role     String  // 'admin', 'creator', 'user'
   articles Article[]
@@ -25,8 +26,8 @@ model User {
 model Article {
   id      Int    @id @default(autoincrement())
   title   String
-  content String
+  content String @db.LongText
   image   String?
-  userId  Int
+  userId  Int    @default(1)
   user    User   @relation(fields: [userId], references: [id])
 }
